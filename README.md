@@ -4,7 +4,7 @@
 sudo apt install vlc-bin python3 python3-venv
 python3 -m venv env
 source env/bin/activate
-pip3 install flask flask-uploads flask-socketio
+pip3 install flask flask-uploads flask-socketio eventlet
 ```
 
 Run: `python3 main.py` – Nach Quellcodeänderung Neustart notwendig
