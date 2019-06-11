@@ -62,9 +62,9 @@ def upload_file():
     return redirect(url_for('index'))
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+#@app.route('/')
+#def index():
+#    return render_template('index.html')
 
 
 @socketio.on('play')
