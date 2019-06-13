@@ -9,21 +9,18 @@ import subprocess as sp
 
 
 class VLCPlayer(threading.Thread):
-    def __init__(self):
+    def __init__(self, filename):
         super().__init__()
 
         self.process = None
-        self.filename_to_play = None
+        self.filename_to_play = filename
 
     def run(self):
-        while True:
-            print("x")
-            if self.filename_to_play is not None:
-                self._play(self.filename_to_play)
+        self._play(self.filename_to_play)
 
-    def play(self, filename):
-        self.filename_to_play = filename
-        print("Play")
+    # def play(self, filename):
+    #     self.filename_to_play = filename
+    #     print("Play")
 
     def _play(self, filename):
         self.process = subprocess.Popen(["cvlc", "-f", "--no-osd", "--play-and-exit", filename])

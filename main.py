@@ -31,12 +31,13 @@ configure_uploads(app, (media,))
 socketio = SocketIO(app)
 
 STATUS_NO_FILE = 0
-# STATUS_STOPPED = 1
+STATUS_STOPPED = 1
 STATUS_PLAY = 2
 # STATUS_PAUSE = 3
 
 running_file = None
 status = STATUS_NO_FILE
+vlc = None
 
 
 def send_status():
@@ -59,7 +60,7 @@ def upload_file():
         filename = media.save(request.files['media'])
         # flash("Photo saved.")
 
-    return redirect(url_for('index'))
+    return redirect("http://localhost:3000/")
 
 
 #@app.route('/')
@@ -69,19 +70,27 @@ def upload_file():
 
 @socketio.on('play')
 def handle_play(message):
-    global running_file, status
+    global running_file, status, vlc
     print(message)
     filename = os.path.join(app.config["UPLOADED_MEDIA_DEST"], message["file"])
     print(filename)
     # vlc.add(filename)
-    vlc = VLCPlayer()
+    vlc = VLCPlayer(filename)
     vlc.start()
-    vlc.play(filename)
     print("playing")
     running_file = filename
     status = STATUS_PLAY
     send_status()
 
+@socketio.on('stop')
+def handle_play():
+    global running_file, status, vlc
+    if vlc is not None:
+        vlc.stop()
+    print("stopped")
+    status = STATUS_STOPPED
+    running_file = None
+    send_status()
 
 if __name__ == '__main__':
     socketio.run(app)

@@ -39,6 +39,10 @@ class App extends Component {
     _onPlay = (file) => {
         this.socket.emit("play", {file: file});
     };
+    _onStop = () => {
+        console.log("irgendwas damit du das erkennen kannst, ob das durchgeführt wird");
+        this.socket.emit("stop");
+    };
 
     render() {
         const that = this;
@@ -52,8 +56,9 @@ class App extends Component {
                 <div className="card">
                     <div className="card-body">
                         <h5 className="card-title">Laufender Medienvorgang</h5>
-                        {this.state.runningFile}
-                        <button type="button" className="btn btn-primary" id="play">Play</button>
+                        {this.state.runningFile ? <div> {this.state.runningFile}
+                            <button type="button" className="btn btn-primary" id="play" onClick={
+                                this._onStop}>Stop</button></div> : ""}
                     </div>
                 </div>
                 <br/>
@@ -79,7 +84,7 @@ class App extends Component {
                     <div className="card-body">
                         <h5 className="card-title">Neue Mediendateien hochladen</h5>
 
-                        <form method="post" action="upload" encType="multipart/form-data">
+                        <form method="post" action="http://localhost:5000/upload" encType="multipart/form-data">
                             <div className="form-group">
 
                                 <div className="custom-file">
