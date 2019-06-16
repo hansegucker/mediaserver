@@ -2,10 +2,7 @@ import os
 import signal
 import threading
 
-from eventlet.green import socket
 from eventlet.green import subprocess
-import time
-import subprocess as sp
 
 
 class VLCPlayer(threading.Thread):

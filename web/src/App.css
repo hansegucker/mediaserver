@@ -5,3 +5,17 @@
 .right {
     float: right;
 }
+
+.play-buttons {
+    /*display: flex;*/
+    /**/
+    /*flex-direction: row;*/
+    /**/
+    /*flex-wrap: wrap;*/
+    /*justify-content: space-around*/
+    /*align-items: start;*/
+}
+
+.play-buttons .btn {
+    margin: 10px;
+}

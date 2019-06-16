@@ -41,6 +41,7 @@ vlc = None
 
 
 def send_status():
+    global status, running_file
     socketio.emit("status", {"status": status, "running_file": running_file})
 
 
@@ -63,8 +64,8 @@ def upload_file():
     return redirect("http://localhost:3000/")
 
 
-#@app.route('/')
-#def index():
+# @app.route('/')
+# def index():
 #    return render_template('index.html')
 
 
@@ -75,6 +76,8 @@ def handle_play(message):
     filename = os.path.join(app.config["UPLOADED_MEDIA_DEST"], message["file"])
     print(filename)
     # vlc.add(filename)
+    if vlc is not None:
+        vlc.stop()
     vlc = VLCPlayer(filename)
     vlc.start()
     print("playing")
@@ -82,15 +85,17 @@ def handle_play(message):
     status = STATUS_PLAY
     send_status()
 
+
 @socketio.on('stop')
-def handle_play():
+def handle_stop():
     global running_file, status, vlc
     if vlc is not None:
         vlc.stop()
     print("stopped")
-    status = STATUS_STOPPED
+    status = STATUS_NO_FILE
     running_file = None
     send_status()
+
 
 if __name__ == '__main__':
     socketio.run(app)
